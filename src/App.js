@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -7,8 +7,14 @@ function App() {
   const [hour, Sethour] = useState(0);
   const [pauser, SetPauser] = useState(true);
   const [texti, Settext] = useState("Stop");
+  const deter = useRef(true)
 
   useEffect(() => {
+    worker()
+  }, [time]);
+
+
+  const worker = ()=>{
     const timer = setTimeout(() => {
       if (pauser) {
         setTime(time - 1);
@@ -19,27 +25,27 @@ function App() {
         }
         console.log(time);
       }
-      else{
-        console.log('text');
-      }
     }, 1000);
 
     if (time === 0 && min == 0) {
       clearTimeout(timer);
     }
-  }, [time]);
+  }
 
   const starter = () => {
+
     SetPauser(!pauser);
     if (texti === "Stop") {
       Settext("Start");
     } else {
+      worker()
       Settext("Stop");
     }
     console.log(pauser);
   };
   const reset = () => {
-    SetPauser(!pauser);
+    SetPauser(false);
+    Settext("Stop")
     setTime(59)
     setMin(5)
 
@@ -54,11 +60,12 @@ function App() {
           <h4 style={{ color: "white" }}>Stopwatch</h4>
         </div>
         <div
+        className="mt-3 mb-3"
           style={{
             color: "white",
             display: "flex",
-            marginLeft: "50px",
             alignItems: "center",
+            justifyContent: "center"
           }}
         >
           {" "}
