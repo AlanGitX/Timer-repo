@@ -16,7 +16,8 @@ function App() {
 
   const worker = ()=>{
     const timer = setTimeout(() => {
-      if (pauser) {
+      console.log(deter.current);
+      if (deter.current) {
         setTime(time - 1);
         if (time === 0) {
           setTime(59);
@@ -27,24 +28,25 @@ function App() {
       }
     }, 1000);
 
-    if (time === 0 && min == 0) {
+    if (time === 0 && min === 0) {
       clearTimeout(timer);
     }
   }
 
   const starter = () => {
 
-    SetPauser(!pauser);
+    deter.current = !deter.current
+    if(deter.current){
+      worker()
+    }
     if (texti === "Stop") {
       Settext("Start");
     } else {
-      worker()
       Settext("Stop");
     }
-    console.log(pauser);
   };
   const reset = () => {
-    SetPauser(false);
+    deter.current = false
     Settext("Stop")
     setTime(59)
     setMin(5)
@@ -65,11 +67,12 @@ function App() {
             color: "white",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            borderBottom: " 1px solid #FFFFFF"
           }}
         >
           {" "}
-          <h1>{min}</h1>&nbsp;<p>m</p> &nbsp;&nbsp;&nbsp; <h1>{time}</h1>&nbsp;
+          <h1>{hour}</h1>&nbsp;<p>h</p> &nbsp;&nbsp;&nbsp;<h1>{min}</h1>&nbsp;<p>m</p> &nbsp;&nbsp;&nbsp; <h1>{time}</h1>&nbsp;
           <p>s</p>
         </div>
         <div>
